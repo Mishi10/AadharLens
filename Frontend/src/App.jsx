@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PhotoUpload from './components/PhotoUpload'
 import Navbar from './components/navbar'
 import Hero from './components/Hero'
 import HowItWorks from './components/HowItWorks'
 import About from './components/Abouts'
+import VerificationPage from './components/Verification';
 import Footer from './components/Footer'
 import './App.css'
 
@@ -22,7 +22,7 @@ function App() {
                 <About />
               </>
             } />
-            <Route path="/verify" element={<PhotoUpload />} />
+            <Route path="/verify" element={<VerificationPage />} />
           </Routes>
         </main>
         <Footer />
