@@ -32,7 +32,7 @@ function PhotoUpload() {
     const formData = new FormData();
     formData.append("file", selectedFile);
 
-    fetch("http://localhost:5000/uploads", {
+    fetch("http://localhost:5000/upload", {
       method: "POST",
       body: formData,
     })
