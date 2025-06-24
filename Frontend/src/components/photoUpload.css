@@ -1,0 +1,9 @@
+.choose-file{
+    margin-top: 20px;
+    border: 2px solid #0A6EBD;
+    border-radius: 10px;
+    color:black;
+    padding: 7px;
+    font-weight: bold;
+    /* background-color: #00B4D8; */
+}
