@@ -36,7 +36,12 @@ function PhotoUpload() {
       method: "POST",
       body: formData,
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(!res.ok){
+          throw new Error("Server error");
+        }
+        return res.json();
+      })
       .then((data) => {
             if (data.images && data.images.length > 0) {
             setUploadStatus(`✅ Uploaded to: ${data.images.join(", ")}`);
@@ -59,23 +64,25 @@ function PhotoUpload() {
         accept="image/*,application/pdf,.doc,.docx"
       />
 
-      <button className="choose-file" onClick={handleButtonClick}>Choose File</button>
+      <button className="btn" onClick={handleButtonClick}>Choose File</button>
 
       {selectedFile && !showPreview && (
-        <div style={{ marginTop: 10 }}>
-          <button onClick={handlePreviewClick}>Preview</button>
+        <div style={{ marginTop: 10 , textAlign:"center"}}>
+          <button onClick={handlePreviewClick}>📁 Click here for Preview</button>
         </div>
       )}
 
       {showPreview && selectedFile && (
-        <div style={{ marginTop: 20 }}>
-          <h4>📁 Preview</h4>
-
+        <div style={{ marginTop: 20 ,textAlign:"center"}}>
+          <h4 style={{
+            fontSize:"1.3rem",
+            fontWeight:"500"
+          }}>📁 Click here for Preview</h4>
           {isImage ? (
             <img
               src={previewURL}
               alt="Preview"
-              style={{ width: "300px", borderRadius: "10px" }}
+              style={{ width: "300px", borderRadius: "10px" , textAlign:"center"}}
             />
           ) : (
             <div>
@@ -87,7 +94,7 @@ function PhotoUpload() {
           )}
 
           <div style={{ marginTop: 10 }}>
-            <button onClick={handleUpload}>Send to Server</button>
+            <button className="btn" onClick={handleUpload}>Submit</button>
           </div>
         </div>
       )}

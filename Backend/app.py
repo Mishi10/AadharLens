@@ -48,7 +48,7 @@ def upload():
     else:
         return jsonify({"error": "Unsupported file type"}), 400
 
-    return jsonify({"message": "Processed successfully", "images": saved_images})
+    return jsonify({"message": "Processed successfully", "images": saved_images}), 200
 
 if __name__ == "__main__":
     app.run(port=5000)
