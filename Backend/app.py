@@ -6,6 +6,9 @@ from PIL import Image
 import cv2
 from pdf2image import convert_from_path
 from ocr_utils import extract_dob_and_age
+from face_cropper import crop_face 
+from face_match import recognize_face
+
 
 app = Flask(__name__)
 # CORS(app, supports_credentials=True)
@@ -65,6 +68,32 @@ def upload():
         "images": saved_images,
         "ocr": ocr_result
     }), 200
+
+@app.route("/verify-face", methods=["POST"])
+def verify_face():
+    if "aadhaar" not in request.files or "selfie" not in request.files:
+        return jsonify({"error": "Both Aadhaar and selfie are required"}), 400
+
+    aadhaar_file = request.files["aadhaar"]
+    selfie_file = request.files["selfie"]
+
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    aadhaar_path = os.path.join(UPLOAD_FOLDER, f"{timestamp}_aadhaar.jpg")
+    selfie_path = os.path.join(UPLOAD_FOLDER, f"{timestamp}_selfie.jpg")
+    cropped_aadhaar_path = os.path.join(UPLOAD_FOLDER, f"{timestamp}_aadhaar_face.jpg")
+
+    aadhaar_file.save(aadhaar_path)
+    selfie_file.save(selfie_path)
+
+    result = crop_face(aadhaar_path, cropped_aadhaar_path)
+    if result is None:
+        return jsonify({"error": "No face found in Aadhaar image"}), 400
+
+    # Match Aadhaar face with selfie
+  
+    match_result = recognize_face(cropped_aadhaar_path)
+
+    return jsonify(match_result)
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
