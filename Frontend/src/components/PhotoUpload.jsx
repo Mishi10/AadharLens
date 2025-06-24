@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-
+import "./photoUpload.css"
 function PhotoUpload() {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -32,7 +32,7 @@ function PhotoUpload() {
     const formData = new FormData();
     formData.append("file", selectedFile);
 
-    fetch("http://localhost:5000/uploads", {
+    fetch("http://localhost:5000/upload", {
       method: "POST",
       body: formData,
     })
@@ -59,7 +59,7 @@ function PhotoUpload() {
         accept="image/*,application/pdf,.doc,.docx"
       />
 
-      <button onClick={handleButtonClick}>Choose File</button>
+      <button className="choose-file" onClick={handleButtonClick}>Choose File</button>
 
       {selectedFile && !showPreview && (
         <div style={{ marginTop: 10 }}>

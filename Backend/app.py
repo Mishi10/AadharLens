@@ -7,7 +7,7 @@ import cv2
 from pdf2image import convert_from_path
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
