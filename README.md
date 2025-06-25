@@ -1,8 +1,27 @@
-# 🆔🔍Aadhaar Lens
+# 🔍Aadhar Lens
 
 A proof-of-concept web application that verifies a person's identity and age using a simulated Aadhaar card and a live selfie. It uses OCR to extract the date of birth and performs face recognition to verify if the person holding the Aadhaar is the same as the one in the selfie. The system also displays a confidence score for the face match and determines if the person is eligible to vote (18+).
 
----
+
+## 📚 Table of Contents
+- [📌 Problem Statement](#-problem-statement)
+- [🚀 Features](#-features)
+- [📂 Project Structure](#-project-structure)
+- [⚙️ Tech Stack](#%EF%B8%8F-tech-stack)
+- [📥 Installation & Setup](#-installation--setup)
+  - [🔧 Backend](#-backend-1)
+  - [🌐 Frontend](#-frontend)
+- [🧪 How It Works](#-how-it-works)
+- [📽️ Demo Video](#%EF%B8%8F-demo-video)
+- [📊 Presentation Slides](#-presentation-ppt)
+- [💾 Executable (.exe) File](#-executable-exe-file)
+- [🔒 Security Notes](#-security-notes)
+- [🎁 Bonus Features](#-bonus-features)
+- [🙏 Acknowledgements](#-acknowledgements)
+- [📬 Contact](#-contact)
+
+
+
 
 ## 📌 Problem Statement
 
@@ -15,7 +34,7 @@ Design a system that:
 
 > ⚠️ This is a simulated system using fake/sample Aadhaar data. No real government APIs or UIDAI data are accessed.
 
----
+
 
 ## 🚀 Features
 
@@ -27,35 +46,46 @@ Design a system that:
 - ✅ Voting eligibility check (18+ verification).
 - 🎨 Clean and user-friendly web interface built with React.js.
 
----
+
 
 ## 📂 Project Structure
 
 ```
-├── backend/
+├── Backend/
+│ ├── dataset/
+│ ├── uploads/ # Temp directory for Aadhaar/selfie files
 │ ├── app.py # Flask backend API
 │ ├── face_match.py # LBPH face recognition logic
 │ ├── face_cropper.py # Haarcascade-based face detection and cropping
 │ ├── ocr_utils.py # DOB extraction using OCR
-│ ├── uploads/ # Temp directory for Aadhaar/selfie files
+│ ├── model_utils.py
 │ ├── label_map.pkl # Label map for LBPH recognizer
 │ ├── face_model.xml # Trained LBPH face recognizer model
+│ ├── quality_utils.py
+│ ├── selfie_capture_recog.py
+│ ├── train_model.py
 │ └── requirements.txt
 │
-├── frontend/
+├── Frontend/
 │ ├── src/
 │ │ ├── components/
-│ │ │ ├── Home.jsx
+│ │ │ ├──About.jsx
+│ │ │ ├──Footer.jsx
+│ │ │ ├──Hero.jsx
+│ │ │ ├──HowItworks
+│ │ │ ├──navbar.jsx
+│ │ │ ├── SelfieCapture.jsx
 │ │ │ ├── VerificationPage.jsx
 │ │ │ └── PhotoUpload.jsx
 │ │ └── App.js
+│ │ └── main.jsx
 │ └── package.json
 │
 ├── README.md
 └── .gitignore
 ```
 
---- 
+
 
 ## ⚙️ Tech Stack
 
@@ -71,26 +101,7 @@ Design a system that:
 - `react-toastify` for notifications
 - Webcam file input support
 
----
 
-## 🧪 How It Works
-
-1. **User uploads Aadhaar card** (PDF or image).
-2. **User takes a selfie** using webcam or file.
-3. Backend:
-   - Extracts and crops face from both images using Haarcascade.
-   - Compares Aadhaar and selfie faces using LBPH recognizer.
-   - Uses OCR to extract DOB and calculate age.
-4. **Frontend displays:**
-   - ✅ Face match result.
-   - 📊 Confidence score.
-   - 🎂 DOB and age.
-   - 🗳️ Eligibility to vote (18+ or not).
-
----
-##
-
----
 
 ## 📥 Installation & Setup
 
@@ -117,6 +128,23 @@ npm run dev
 ```
 
 React app will run at `http://localhost:5173` 
+
+
+
+## 🧪 How It Works
+
+1. **User uploads Aadhaar card** (PDF or image).
+2. **User takes a selfie** using webcam or file.
+3. Backend:
+   - Extracts and crops face from both images using Haarcascade.
+   - Compares Aadhaar and selfie faces using LBPH recognizer.
+   - Uses OCR to extract DOB and calculate age.
+4. **Frontend displays:**
+   - ✅ Face match result.
+   - 📊 Confidence score.
+   - 🎂 DOB and age.
+   - 🗳️ Eligibility to vote (18+ or not).
+
 
 ## 📽️ Demo Video
 Watch the full working demo here:
@@ -156,25 +184,19 @@ You can run the application without setting up the environment by downloading th
 
 📝 Note: The `.exe` runs only the backend. Use the frontend in browser at `http://localhost:5173`.
 
+
+
 ## 🔒 Security Notes
 - No real Aadhaar data is used — only samples.
-
 - All file processing happens locally.
-
 - Files stored in `uploads/` are temporary; configure auto-cleaning in production.
-
 - Use HTTPS and encryption in real deployments.
 
-
-## 🎁 Bonus Features (Planned or Possible)
+## 🎁 Bonus Features
  - Confidence score for face match
-
  - Age eligibility check
-
  - Feedback for blurry or low-light selfies
-
  - OCR support for regional Aadhaar cards (Hindi, Tamil, etc.)
-
  - Auto-cleaning of temporary files
 
 
@@ -183,11 +205,8 @@ This project is licensed under the MIT License. -->
 
 ## 🙏 Acknowledgements
 - OpenCV
-
 - PyTesseract
-
 - React.js
-
 - Aadhaar sample documents for testing (only simulated data used)
 
 ## 📬 Contact
