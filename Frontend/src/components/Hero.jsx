@@ -14,6 +14,18 @@ function Hero() {
         const section = document.getElementById("how-it-works");
         if (section) {
           section.scrollIntoView({ behavior: "smooth" });
+
+          setTimeout(() => {
+            if (window.triggerHowItWorksSteps) {
+              window.triggerHowItWorksSteps(); 
+            }
+          }, 500);
+
+          setTimeout(() => {
+            if (window.highlightStartBtn) {
+              (window.highlightStartBtn());
+            }
+          }, 4000);
         }
       }}
       className="mt-8 bg-blue-600 text-white px-6 py-3 rounded-full shadow hover:bg-blue-500 transition">
