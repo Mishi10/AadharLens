@@ -44,6 +44,6 @@ def extract_dob_and_age(image_path):
             "error": None
         }
 
-sample = extract_dob_and_age("uploads/fake2.jpg")
-print(f"DOB: ", sample["dob"])
-print(f"Age:",sample["age"])
+# sample = extract_dob_and_age("uploads/fake2.jpg")
+# print(f"DOB: ", sample["dob"])
+# print(f"Age:",sample["age"])

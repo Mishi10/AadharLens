@@ -8,14 +8,15 @@ function PhotoUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [ocrData, setOcrData] = useState(null);
 
-  const resetForm=()=>{
+  const resetForm = () => {
     setSelectedFile(null);
     setPreviewURL(null);
     setShowPreview(false);
-    setUploadStatus("");
+    setOcrData(null);
     fileInputRef.current.value = null;
-  }
+  };
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -38,7 +39,7 @@ function PhotoUpload() {
 
   const handleUpload = () => {
     if (!selectedFile) {
-      toast.warn("⚠️ Please select a file before uploading");
+      toast.warn("Please select a file before uploading");
       return;
     }
 
@@ -50,9 +51,7 @@ function PhotoUpload() {
       body: formData,
     })
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Server error");
-        }
+        if (!res.ok) throw new Error("Server error");
         return res.json();
       })
       .then((data) => {
@@ -61,12 +60,15 @@ function PhotoUpload() {
 
           if (data.ocr && data.ocr.dob) {
             const { dob, age, is_18_plus } = data.ocr;
-            toast.success(`🎂 DOB: ${dob}\n📅 Age: ${age}\n${is_18_plus ? "✅ Person is 18+" : "❌ Underage"}`);
+            toast.info("🎉 Congratulations! You are eligible to vote 🗳️");
+            setOcrData({ dob, age, is_18_plus });
           } else {
-            toast.warning("⚠️ Could not extract DOB or age.");
+            toast.warning("Could not extract DOB or age.");
+            setOcrData(null);
           }
         } else {
           toast.warning("Upload worked but no file returned.");
+          setOcrData(null);
         }
       })
       .catch(() => toast.error("Upload failed! Please try again."));
@@ -75,9 +77,9 @@ function PhotoUpload() {
   const isImage = selectedFile && selectedFile.type.startsWith("image");
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="text-center p-6">
       <ToastContainer position="top-center" autoClose={3000} />
-      
+
       <input
         type="file"
         ref={fileInputRef}
@@ -88,36 +90,53 @@ function PhotoUpload() {
 
       <button className="btn" onClick={handleButtonClick}>Choose File</button>
 
-      {selectedFile && !showPreview && (
-        <div style={{ marginTop: 10 }}>
-          <button onClick={handlePreviewClick}>📁 Click for Preview</button>
+      {selectedFile && (
+        <div className="mt-4">
+          {!showPreview && (
+            <button onClick={handlePreviewClick} className="mr-2 text-blue-600 underline">
+              📁 Click for Preview
+            </button>
+          )}
+
+          <div className="mt-2">
+            <button className="btn" onClick={handleUpload}>Submit</button>
+            <button className="btn ml-2 text-black" onClick={resetForm}>Reset</button>
+          </div>
         </div>
       )}
 
       {showPreview && selectedFile && (
-        <div style={{ marginTop: 20 }}>
-          <h4 style={{ fontSize: "1.3rem", fontWeight: "500" }}>📁 Preview</h4>
+        <div className="mt-6">
+          <h4 className="text-lg font-medium">📁 Preview</h4>
           {isImage ? (
             <img
               src={previewURL}
               alt="Preview"
-              style={{ width: "300px", borderRadius: "10px" }}
+              className="w-72 rounded-lg mt-2 mx-auto"
             />
           ) : (
-            <div>
+            <div className="mt-2">
               <p>📄 {selectedFile.name}</p>
-              <a href={previewURL} style={{color:"#203cbc", fontWeight:"500"}} target="_blank" rel="noopener noreferrer">
+              <a href={previewURL} className="text-blue-700 font-medium" target="_blank" rel="noopener noreferrer">
                 Open File
               </a>
             </div>
           )}
+        </div>
+      )}
 
-          <div style={{ marginTop: 10 }}>
-            <button className="btn" onClick={handleUpload}>Submit</button>
-            <button className="btn" style={{ marginLeft: "10px", color: "#000" }} onClick={resetForm}>
-              Reset
-            </button>
-          </div>
+      {ocrData && (
+        <div className="mt-6 p-4 rounded-2xl shadow-md bg-white border border-gray-200 w-full max-w-md mx-auto text-gray-800">
+          <h2 className="text-lg font-semibold mb-3 text-blue-800">📝 Extracted Information</h2>
+          <p className="mb-2"><strong>🎂 DOB:</strong> {ocrData.dob}</p>
+          <p className="mb-2"><strong>📅 Age:</strong> {ocrData.age}</p>
+          <p className="font-semibold">
+            {ocrData.is_18_plus ? (
+              <span className="text-green-600">✅ Person is 18+</span>
+            ) : (
+              <span className="text-red-600">❌ Underage</span>
+            )}
+          </p>
         </div>
       )}
     </div>

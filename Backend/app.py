@@ -8,8 +8,8 @@ from pdf2image import convert_from_path
 from ocr_utils import extract_dob_and_age
 
 app = Flask(__name__)
-# CORS(app, supports_credentials=True)
-CORS(app, resources={r"/upload": {"origins": "http://localhost:5173"}})
+CORS(app, supports_credentials=True)
+# CORS(app, resources={r"/upload": {"origins": "http://localhost:5173"}})
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
