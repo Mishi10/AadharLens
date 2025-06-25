@@ -12,6 +12,7 @@ function PhotoUpload({ onAadhaarChange, resetTrigger }) {
     setPreview(URL.createObjectURL(file));
     onAadhaarChange(file);
   };
+  
 
   const triggerFileInput = () => {
     fileInputRef.current.click();

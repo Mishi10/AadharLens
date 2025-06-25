@@ -10,6 +10,7 @@ from pdf2image import convert_from_path
 from ocr_utils import extract_dob_and_age
 from face_cropper import crop_face 
 from face_match import recognize_face
+from quality_utils import is_blurry, is_proper_lighting
 
 
 app = Flask(__name__)
@@ -48,19 +49,26 @@ def verify_face():
         return jsonify({"error": "No face found in Aadhaar image"}), 400
     if not crop_face(selfie_path, cropped_selfie_path):
         return jsonify({"error": "No face found in Selfie image"}), 400
+    
+    # ✅ Step 3: Quality checks before recognition
+    if is_blurry(cropped_selfie_path):
+        return jsonify({"error": " face is too blurry"}), 400
 
-    # ✅ Step 3: Run face recognition
+    if not is_proper_lighting(cropped_selfie_path):
+        return jsonify({"error": "Bad lighting in selfie image"}), 400
+
+    # ✅ Step 4: Run face recognition
     aadhaar_face = recognize_face(cropped_aadhaar_path)
     selfie_face = recognize_face(cropped_selfie_path)
 
-    # ✅ Step 4: Compare faces
+    # ✅ Step 5: Compare faces
     is_match = False
     if "name" in aadhaar_face and "name" in selfie_face:
         is_match = aadhaar_face["name"] == selfie_face["name"]
         if is_match:
             confidence = round((aadhaar_face["confidence"] + selfie_face["confidence"]) / 2, 2)
 
-    # ✅ Step 5: Send match + DOB info to frontend
+    # ✅ Step 6: Send match + DOB info to frontend
     return jsonify({
         "match": is_match,
         "ocr": ocr_result,

@@ -10,6 +10,7 @@ function VerificationPage() {
   const [ocrData, setOcrData] = useState(null);
   const [matchResult, setMatchResult] = useState(null);
   const [resetFlag, setResetFlag] = useState(null);
+  const [step, setStep] = useState(1);
   const [confidence, setConfidence] = useState(null);
 
   function dataURLtoBlob(dataUrl) {
@@ -23,13 +24,23 @@ function VerificationPage() {
     }
     return new Blob([u8arr], { type: mime });
   }
+  
+    const handleAadhaarChange = (file) => {
+      setAadhaarFile(file);
+      if (file) setStep(2);
+    };
+  
+    const handleSelfieCapture = (data) => {
+      setSelfieData(data);
+      if (data) setStep(3);
+    };
 
-  const handleSubmit = async () => {
-    if (!aadhaarFile || !selfieData) {
-      toast.warn("Please provide both Aadhaar and Selfie.");
-      return;
-    }
-
+    const handleSubmit = async () => {
+      if (!aadhaarFile || !selfieData) {
+        toast.warn("Please provide both Aadhaar and Selfie.");
+        return;
+      }
+  
     const formData = new FormData();
     formData.append("aadhaar", aadhaarFile);
     const selfieBlob = dataURLtoBlob(selfieData);
@@ -54,7 +65,13 @@ function VerificationPage() {
         toast.error("❌ Face did not match.");
         setMatchResult(false);
       } else {
-        toast.error(data.error || "Unexpected error.");
+        if (data.error.toLowerCase().includes("blurry")) {
+          toast.error("Your selfie is too blurry. Please retake it.");
+        } else if (data.error.toLowerCase().includes("lighting")) {
+          toast.error("Poor lighting in selfie. Please try again.");
+        } else {
+          toast.error(data.error);
+        }
         setMatchResult(null);
       }
 
@@ -84,6 +101,7 @@ function VerificationPage() {
     setOcrData(null);
     setMatchResult(null);
     setResetFlag(prev => !prev);
+    setStep(1);
   };
 
   return (
@@ -91,9 +109,22 @@ function VerificationPage() {
       <ToastContainer position="top-center" autoClose={3000} />
 
       <h2 className="text-2xl font-bold text-center text-blue-800">🧾 Aadhaar & Selfie Verification</h2>
+      
+      {/* 🔢 Step Indicator */}
+      <div className="flex justify-center gap-6 mt-2 mb-6">
+        {["Upload Aadhaar", "Capture Selfie", "Verify"].map((label, idx) => (
+          <div key={idx} className={`text-center ${step >= idx + 1 ? "text-blue-700 font-bold" : "text-gray-400"}`}>
+            <div className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center ${step >= idx + 1 ? "bg-blue-200" : "bg-gray-200"} transition`}>
+              {idx + 1}
+            </div>
+            <div className="text-sm mt-1">{label}</div>
+          </div>
+        ))}
+      </div>
 
-      <PhotoUpload onAadhaarChange={setAadhaarFile} resetTrigger={resetFlag}/>
-      <SelfieCapture onSelfieCapture={setSelfieData} resetTrigger={resetFlag}/>
+
+      <PhotoUpload onAadhaarChange={handleAadhaarChange} resetTrigger={resetFlag}/>
+      <SelfieCapture onSelfieCapture={handleSelfieCapture} resetTrigger={resetFlag}/>
 
       <div className="text-center">
         <button className="btn hover:bg-blue-200" onClick={handleSubmit}>✅ Submit for Verification</button>
