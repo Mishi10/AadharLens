@@ -10,6 +10,7 @@ function VerificationPage() {
   const [ocrData, setOcrData] = useState(null);
   const [matchResult, setMatchResult] = useState(null);
   const [resetFlag, setResetFlag] = useState(null);
+  const [confidence, setConfidence] = useState(null);
 
   function dataURLtoBlob(dataUrl) {
     const arr = dataUrl.split(',');
@@ -46,6 +47,9 @@ function VerificationPage() {
       if (data.match === true) {
         toast.success("✅ Face matched successfully!");
         setMatchResult(true);
+        if (data.confidence !== undefined) {
+          setConfidence(data.confidence);
+        }
       } else if (data.match === false) {
         toast.error("❌ Face did not match.");
         setMatchResult(false);
@@ -118,10 +122,13 @@ function VerificationPage() {
       {matchResult !== null && (
         <div className="mt-4 text-center font-bold text-lg">
           {matchResult ? (
-            <span className="text-green-600">✅ Face Match Successful</span>
-          ) : (
-            <span className="text-red-600">❌ Face Match Failed</span>
-          )}
+            <span className="text-green-600">
+              ✅ Face Match Successful
+              {confidence !== null && ` with a confidence of ${confidence}%`}
+            </span>
+            ) : (
+              <span className="text-red-600">❌ Face Match Failed</span>
+            )}
         </div>
       )}
     </div>
