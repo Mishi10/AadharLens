@@ -65,11 +65,14 @@ def verify_face():
     is_match = False
     if "name" in aadhaar_face and "name" in selfie_face:
         is_match = aadhaar_face["name"] == selfie_face["name"]
+        if is_match:
+            confidence = round((aadhaar_face["confidence"] + selfie_face["confidence"]) / 2, 2)
 
     # ✅ Step 6: Send match + DOB info to frontend
     return jsonify({
         "match": is_match,
-        "ocr": ocr_result
+        "ocr": ocr_result,
+        "confidence":confidence
     })
 
 if __name__ == "__main__":
