@@ -1,52 +1,76 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState , useEffect} from "react";
 import Webcam from "react-webcam";
+import "./photoUpload.css"
 
-function SelfieCapture() {
+function SelfieCapture({ onSelfieCapture, resetTrigger }) {
   const webcamRef = useRef(null);
   const [selfie, setSelfie] = useState(null);
-  const [cameraOn, setCameraOn] = useState(false); // 🔹 controls camera visibility
+  const [cameraOn, setCameraOn] = useState(false);
 
   const capture = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setSelfie(imageSrc);
-  };
-
-  const handleStartCamera = () => {
-    setCameraOn(true);
+    const image = webcamRef.current.getScreenshot();
+    setSelfie(image);
+    onSelfieCapture(image);
   };
 
   const handleRetake = () => {
     setSelfie(null);
-    setCameraOn(false); // Optionally turn off camera after capture
+    setCameraOn(false);
+    onSelfieCapture(null);
   };
 
+  useEffect(() => {
+    setSelfie(null);
+    setCameraOn(false);
+    onSelfieCapture(null);
+  }, [resetTrigger]);
+
   return (
-    <div className="flex flex-col items-center w-full p-4">
-      <h2 className="text-xl font-semibold mb-2">📸 Capture Selfie</h2>
+    <div className="p-4 bg-white rounded-xl shadow-md border border-gray-200">
+      <h3 className="text-xl font-semibold text-blue-800 mb-3">📸 Selfie Capture</h3>
 
       {!cameraOn && !selfie && (
-        <button onClick={handleStartCamera} className="btn mb-4">
-          Start Camera
-        </button>
+        <div >
+          <button
+            className="btn px-4 py-2 hover:bg-blue-700 text-white rounded-lg transition"
+            onClick={() => setCameraOn(true)}
+          >
+            Start Camera
+          </button>
+        </div>
       )}
 
       {cameraOn && !selfie && (
-        <>
+        <div className="flex flex-col items-center">
           <Webcam
-            audio={false}
             ref={webcamRef}
+            audio={false}
             screenshotFormat="image/jpeg"
-            className="rounded-md w-full max-w-md mb-4"
+            className="rounded-lg border border-gray-300 shadow-sm w-full max-w-xs"
           />
-          <button onClick={capture} className="btn">Capture</button>
-        </>
+          <button
+            className="btn mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition"
+            onClick={capture}
+          >
+            📸 Capture Selfie
+          </button>
+        </div>
       )}
 
       {selfie && (
-        <>
-          <img src={selfie} alt="Selfie" className="rounded-md w-full max-w-md mb-4" />
-          <button onClick={handleRetake} className="btn">Retake</button>
-        </>
+        <div className="flex flex-col items-center">
+          <img
+            src={selfie}
+            alt="Captured Selfie"
+            className="rounded-lg border border-gray-300 shadow-sm w-full max-w-xs"
+          />
+          <button
+            className="btn mt-4 px-4 py-2 bg-blue-300 hover:bg-blue-200 text-white rounded-lg transition"
+            onClick={handleRetake}
+          >
+            🔄 Retake
+          </button>
+        </div>
       )}
     </div>
   );
