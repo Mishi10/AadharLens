@@ -145,9 +145,10 @@ React app will run at `http://localhost:5173`
    - 🗳️ Eligibility to vote (18+ or not).
 
 
-## 📽️ Demo Video
-Watch the full working demo here:
-➡️ Demo Video on Google Drive / YouTube
+## 📽️ Project Demo
+Watch the full demo video here:  
+🎥 [AadharLens - Face Recognition Based Identity & Age Verification](https://youtu.be/XtoB5s6UTRo)
+
 
 ### 🎥 Walkthrough includes:
 
