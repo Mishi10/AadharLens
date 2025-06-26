@@ -161,18 +161,6 @@ Watch the full working demo here:
 View the detailed presentation here: 
 [➡️ Project PPT](https://www.canva.com/design/DAGrSMIaCig/mZpXw3j_4YmnYQ8Hlo3jvw/edit?utm_content=DAGrSMIaCig&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-<div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px 0;">
-  <img src="./assets/slides/1.jpg" height="300" alt="Slide 1" />
-  <img src="./assets/slides/2.jpg" height="300" alt="Slide 2" />
-  <img src="./assets/slides/3.jpg" height="300" alt="Slide 3" />
-  <img src="./assets/slides/4.jpg" height="300" alt="Slide 4" />
-  <img src="./assets/slides/5.jpg" height="300" alt="Slide 5" />
-  <img src="./assets/slides/6.jpg" height="300" alt="Slide 6" />
-  <img src="./assets/slides/7.jpg" height="300" alt="Slide 7" />
-  <img src="./assets/slides/8.jpg" height="300" alt="Slide 8" />
-  <img src="./assets/slides/9.jpg" height="300" alt="Slide 9" />
-</div>
-
 ## 📋 Includes:
 
 - Problem statement & objectives
