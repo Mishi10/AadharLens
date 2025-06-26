@@ -3,7 +3,6 @@
 A proof-of-concept web application that verifies a person's identity and age using a simulated Aadhaar card and a live selfie. It uses OCR to extract the date of birth and performs face recognition to verify if the person holding the Aadhaar is the same as the one in the selfie. The system also displays a confidence score for the face match and determines if the person is eligible to vote (18+).
 
 
-<<<<<<< main
 ## 📚 Table of Contents
 - [📌 Problem Statement](#-problem-statement)
 - [🚀 Features](#-features)
@@ -22,10 +21,6 @@ A proof-of-concept web application that verifies a person's identity and age usi
 - [📬 Contact](#-contact)
 
 
-
-=======
----
->>>>>>> main
 
 ## 📌 Problem Statement
 
@@ -163,8 +158,20 @@ Watch the full working demo here:
 - UI flow and result summary
 
 ## 📊 Presentation (PPT)
-View the detailed presentation here: https://www.canva.com/design/DAGrSMIaCig/mZpXw3j_4YmnYQ8Hlo3jvw/edit?utm_content=DAGrSMIaCig&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
-➡️ Project PPT 
+View the detailed presentation here: 
+[➡️ Project PPT](https://www.canva.com/design/DAGrSMIaCig/mZpXw3j_4YmnYQ8Hlo3jvw/edit?utm_content=DAGrSMIaCig&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+<div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px 0;">
+  <img src="./assets/slides/1.jpg" height="300" alt="Slide 1" />
+  <img src="./assets/slides/2.jpg" height="300" alt="Slide 2" />
+  <img src="./assets/slides/3.jpg" height="300" alt="Slide 3" />
+  <img src="./assets/slides/4.jpg" height="300" alt="Slide 4" />
+  <img src="./assets/slides/5.jpg" height="300" alt="Slide 5" />
+  <img src="./assets/slides/6.jpg" height="300" alt="Slide 6" />
+  <img src="./assets/slides/7.jpg" height="300" alt="Slide 7" />
+  <img src="./assets/slides/8.jpg" height="300" alt="Slide 8" />
+  <img src="./assets/slides/9.jpg" height="300" alt="Slide 9" />
+</div>
 
 ## 📋 Includes:
 
