@@ -44,6 +44,8 @@ def verify_face():
     # ✅ Step 1: Run OCR on Aadhaar to extract DOB
     ocr_result = extract_dob_and_age(aadhaar_path)
 
+    confidence = 0
+
     # ✅ Step 2: Crop faces
     if not crop_face(aadhaar_path, cropped_aadhaar_path):
         return jsonify({"error": "No face found in Aadhaar image"}), 400
